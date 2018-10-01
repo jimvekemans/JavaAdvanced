@@ -1,7 +1,7 @@
 package opgave2;
 
 public interface Moveable {
-    void move(Location location);
+    <T> void move(T location);
 
     Location getCurrentLocation();
 }

@@ -4,8 +4,8 @@ public class Elephant implements Moveable {
     Location location = Location.IN_THE_FOREST;
 
     @Override
-    public void move(Location location) {
-        this.location = location;
+    public <T> void move(T location) {
+
     }
 
     @Override

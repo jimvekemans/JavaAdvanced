@@ -4,7 +4,7 @@ import opgave1.Motorized;
 import opgave1.Vehicle;
 
 public class WorkingPlaceUtility {
-	public static int getScore(WorkingPlace<?> workingPlace) {
-		return workingPlace.getNumberOfThingsFixed();
-	}
+    public static <T extends Vehicle & Motorized> int getScore(WorkingPlace<T> workingPlace) {
+        return workingPlace.getNumberOfThingsFixed();
+    }
 }
