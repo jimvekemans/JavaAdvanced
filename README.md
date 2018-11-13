@@ -5,40 +5,69 @@ Ik raad aan een fork te maken ipv te clonen, zo kan je snel veranderingen import
 <b><u>Collections</u> staat bewust eerder als inner classes, lambdas en streams!</b> <br>
 Kennis van collections helpt bij het snappen van deze hoofdstukken, dus best in die volgorde doornemen.
 <hr>
-## Week 1 - Herhaling<br>
-**Requirements**<br>
+<h3>Week 1 - Herhaling</h3><br>
+<b>Requirements</b><br>
+
 - Alles van Java Essentials
-<br><hr>Week 2 - Generics <br>
-&emsp Voor te begrijpen:<br>
-&emsp &emsp - Polymorphism <br>
-&emsp &emsp - Interfaces <br>
-&emsp &emsp - Enums <br>
-&emsp &emsp - Overerving / Inheritance
-<br><hr>Week 6 - Collections <br>
-&emsp Voor te begrijpen:<br>
-&emsp &emsp - Generics <br>
-&emsp &emsp - Beperkingen van gewone Arrays
-<br><hr>Week 3 - Inner classes <br>
-&emsp Voor te begrijpen:<br>
-&emsp &emsp - Access modifiers <br>
-&emsp &emsp - Betekenis en werking van "static"
-<br><hr>Week 4 - Lambda expressions <br>
-&emsp Voor te begrijpen:<br>
-&emsp &emsp - Inner classes
-<br><hr>Week 5 - Streams <br>
-&emsp Voor te begrijpen:<br>
-&emsp &emsp - Collections<br>
-&emsp &emsp - Generics<br>
-&emsp &emsp - <b>Interfaces</b><br>
-&emsp &emsp &emsp - Functional interface<br>
-&emsp &emsp - <b>Lambda expressions</b><br>
-&emsp &emsp &emsp - Method reference
-<br><hr>Week 7 - File IO <br>
-&emsp Voor te begrijpen:<br>
-&emsp &emsp - <b>Exceptions</b><br>
-&emsp &emsp &emsp - try/catch<br>
-&emsp &emsp &emsp - try/catch/finally<br>
-&emsp &emsp &emsp - try with resources<br>
-&emsp &emsp - Streams<br>
-&emsp &emsp - Collections<br>
-&emsp &emsp - Inner classes<br>
+
+<br><hr><h3>Week 2 - Generics</h3> <br>
+<b>Voor te begrijpen:</b><br>
+
+- Polymorphism <br>
+
+- Interfaces <br>
+
+- Enums <br>
+
+- Overerving / Inheritance
+
+<br><hr><h3>Week 6 - Collections</h3> <br>
+<b>Voor te begrijpen:</b><br>
+
+- Generics <br>
+
+- Beperkingen van gewone Arrays
+
+<br><hr><h3>Week 3 - Inner classes</h3> <br>
+<b>Voor te begrijpen:</b><br>
+
+- Access modifiers <br>
+
+- Betekenis en werking van "static"
+
+<br><hr><h3>Week 4 - Lambda expressions</h3> <br>
+<b>Voor te begrijpen:</b><br>
+
+- Inner classes
+
+<br><hr><h3>Week 5 - Streams</h3> <br>
+<b>Voor te begrijpen:</b><br>
+
+- Collections<br>
+
+- Generics<br>
+
+- <b>Interfaces</b><br>
+
+- Functional interface<br>
+
+- <b>Lambda expressions</b><br>
+
+- Method references
+
+<br><hr><h3>Week 7 - File IO</h3> <br>
+<b>Voor te begrijpen:</b><br>
+
+- <b>Exceptions</b><br>
+
+- try/catch<br>
+
+- try/catch/finally<br>
+
+- try with resources<br>
+
+- Streams<br>
+
+- Collections<br>
+
+- Inner classes<br>
