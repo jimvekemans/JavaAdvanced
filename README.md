@@ -5,9 +5,9 @@ Ik raad aan een fork te maken ipv te clonen, zo kan je snel veranderingen import
 <b><u>Collections</u> staat bewust eerder als inner classes, lambdas en streams!</b> <br>
 Kennis van collections helpt bij het snappen van deze hoofdstukken, dus best in die volgorde doornemen.
 <hr>
-Week 1 - Herhaling <br>
-&emsp Requirements:<br>
-&emsp &emsp - Alles van Java Essentials
+## Week 1 - Herhaling<br>
+**Requirements**<br>
+- Alles van Java Essentials
 <br><hr>Week 2 - Generics <br>
 &emsp Voor te begrijpen:<br>
 &emsp &emsp - Polymorphism <br>
