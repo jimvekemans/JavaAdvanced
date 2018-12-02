@@ -1,0 +1,5 @@
+V-0001;Cirque Royale;Onderrichtstraat;81;1000;Brussel;2000
+V-0002;Muziekodroom;Bootstraat;9;3500;Hasselt;850
+V-0003;Ancienne Belgique;Anspachlaan;110;1000;Brussel;2000
+V-0004;Sportpaleis;Schijnpoortweg;109;2170;Antwerpen;23000
+     0;          1;             2;  3;   4;        5;    6;

@@ -1,9 +1,9 @@
-package Opdrachten.Opdracht1.Fase1;
+package oefeningen.io_oefening1;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class App {
+public class IO_APP1 {
     public static void main(String[] args) {
         //System.getProperties().stringPropertyNames().forEach(System.out::println);
         printSeparator("Om te starten");
@@ -12,9 +12,16 @@ public class App {
         Path userHome = Paths.get(System.getProperty("user.home"));
         System.out.println("1. " + userHome);
         System.out.println("2. " + userHome.getClass());
-        Path subPath = userHome.resolve("Opdrachten\\Opdracht1\\Fase2");
+        Path subPath = userHome.resolve("oefeningen\\io_oefening1\\Fase2");
         System.out.println("3. " + subPath);
         printSeparator("Paths: oefening 2");
+        System.out.println(subPath.toString());
+        System.out.println(subPath.getFileName());
+        System.out.println(subPath.getName(0));
+        System.out.println(subPath.getNameCount());
+        System.out.println(subPath.subpath(0, 2));
+        System.out.println(subPath.getParent());
+        System.out.println(subPath.getRoot());
     }
 
     static void printSeparator(String kopNaam) {

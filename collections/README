@@ -1,0 +1,16 @@
+Je kan, afhankelijk van je standpunt, collections indelen in 3 of 4 basiscollecties.
+
+De eerste 3 die je sowieso moet kunnen gebruiken:
+- List : Werking lijkt op die van een Array, je kan namelijk elementen opzoeken op basis van index.
+         Het verschil zit in de mogelijkheid om objecten toe te voegen of te verwijderen na aanmaken van de List.
+- Set : Elementen in deze verzameling zijn gesorteerd op basis van de Comparable interface of een Comparator instantie.
+        Een Set bevat geen duplicaten tenzij jouw compareTo-methode dat toelaat.
+- Map : Elementen worden opgeslagen met een key en een value. De key wordt gebruikt om de values/elementen terug te vinden.
+
+Je kan de volgende soort collections ook als een soort basiscollection zien.
+- Stack : De elementen worden opgeslagen als de koffiebekertjes bij PXL.
+          Degene die het eerst geplaatst werd kan pas als laatste worden gebruikt. (LIFO)
+- Queue : Een rij van elementen. Het tegenovergestelde van Stack.
+          Eerst geplaatst betekent eerst gebruikt. (FIFO)
+- DeQueue : Zowel functionaliteit van Stack als Queue.
+            Elementen kan je zien als een pak kaarten. Je kan langs boven en onder kaarten toevoegen of weghalen.
