@@ -55,21 +55,21 @@ public class TicketSystem {
         return venueMap.get(venueId);
     }
 
-    private static boolean isWithinAWeekFromNow(LocalDateTime dateTime) {
+    static boolean isWithinAWeekFromNow(LocalDateTime dateTime) {
         return dateTime.minusWeeks(1).isBefore(LocalDateTime.now()) && dateTime.isAfter(LocalDateTime.now());
     }
 
-    void addUser(User user) {
+    static void addUser(User user) {
         if (!userMap.containsValue(user))
         userMap.put(user.getId(), user);
     }
 
-    void addEvent(Event event) {
+    static void addEvent(Event event) {
         if (!eventMap.containsValue(event))
         eventMap.put(event.getId(), event);
     }
 
-    void addVenue(Venue venue) {
+    static void addVenue(Venue venue) {
         if (!venueMap.containsValue(venue))
         venueMap.put(venue.getId(), venue);
     }
@@ -84,17 +84,7 @@ public class TicketSystem {
         return user;
     }
 
-    void assignTickets(String eventId, int number) {
-        Event event = getEvent(eventId);
-        for (int i = 0; i < number; i++) {
-            //TODO do I need a Ticket-class or what does a ticket look like? and how do I give these users one?
-            User nextInLine = queueService.getNextInLine(eventId);
-            nextInLine.assignTicket(new Ticket(nextInLine.getId(), eventId));
-            //TODO should the queueservice be updated when assigning tickets?
-        }
-    }
-
-    Event findEventByName(String eventName) {
+    static Event findEventByName(String eventName) {
         return eventMap.values()
                 .stream()
                 .filter(event -> event.getName().equalsIgnoreCase(eventName))
@@ -102,20 +92,29 @@ public class TicketSystem {
                 .get();
     }
 
-    void printSoldOutEvents() {
+    static void printSoldOutEvents() {
         eventMap.values()
                 .stream()
                 .filter(event -> event.attendees.size() >= event.getVenue().getCapacity())
                 .forEach(System.out::println);
     }
 
-    void printVenuesWithEventsThisWeek() {
+    static void printVenuesWithEventsThisWeek() {
         eventMap.values()
                 .stream()
                 .filter(event -> isWithinAWeekFromNow(event.getTime()))
                 .map(Event::getVenue)
                 .distinct()
                 .forEach(System.out::println);
+    }
+
+    void assignTickets(String eventId, int number) {
+        Event event = getEvent(eventId);
+        for (int i = 0; i < number; i++) {
+            User nextInLine = queueService.getNextInLine(eventId);
+            nextInLine.assignTicket(new Ticket(nextInLine.getId(), eventId));
+            queueService.removeFromQueue(eventId);
+        }
     }
 
 }

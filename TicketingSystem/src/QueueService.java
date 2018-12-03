@@ -21,7 +21,7 @@ public class QueueService {
     }
 
     User getNextInLine(String eventId) {
-        return userQueueMap.get(eventId).poll();
+        return userQueueMap.get(eventId).peek();
     }
 
     void removeFromQueue(String eventId) {
