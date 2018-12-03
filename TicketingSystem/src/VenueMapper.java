@@ -17,6 +17,6 @@ public class VenueMapper implements Mapper<Venue> {
                 venueCity,
                 venueCapacity
         );
-        return null;
+        return localVenue;
     }
 }

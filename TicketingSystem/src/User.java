@@ -7,6 +7,7 @@ public class User {
     private String firstname;
     private LocalDate birthday;
     private String id;
+    private Ticket userTicket;
 
     {
         count++;
@@ -55,5 +56,13 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void assignTicket(Ticket ticket) {
+        this.userTicket = ticket;
+    }
+
+    public Ticket getUserTicket() {
+        return userTicket;
     }
 }

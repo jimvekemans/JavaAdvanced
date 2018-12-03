@@ -29,8 +29,7 @@ public class QueueService {
     }
 
     int printQueue(String eventId) {
-        int queueSize = userQueueMap.get(eventId).size();
         userQueueMap.get(eventId).forEach(System.out::println);
-        return queueSize;
+        return userQueueMap.get(eventId).size();
     }
 }
