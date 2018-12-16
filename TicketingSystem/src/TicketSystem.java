@@ -3,17 +3,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TicketSystem {
     static Map<String, User> userMap;
     static Map<String, Event> eventMap;
     static Map<String, Venue> venueMap;
     QueueService queueService;
-
-    public TicketSystem(QueueService queueService) {
-        this.queueService = queueService;
-    }
 
     //initialisation block -- for info: http://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
     {
@@ -43,6 +41,10 @@ public class TicketSystem {
         }
     }
 
+    public TicketSystem(QueueService queueService) {
+        this.queueService = queueService;
+    }
+
     static User getUser(String userId) {
         return userMap.get(userId);
     }
@@ -61,27 +63,17 @@ public class TicketSystem {
 
     static void addUser(User user) {
         if (!userMap.containsValue(user))
-        userMap.put(user.getId(), user);
+            userMap.put(user.getId(), user);
     }
 
     static void addEvent(Event event) {
         if (!eventMap.containsValue(event))
-        eventMap.put(event.getId(), event);
+            eventMap.put(event.getId(), event);
     }
 
     static void addVenue(Venue venue) {
         if (!venueMap.containsValue(venue))
-        venueMap.put(venue.getId(), venue);
-    }
-
-    void requestTicket(Event event, User user) {
-        queueService.addToQueue(event.getId(), user);
-    }
-
-    User viewNext(String eventId) {
-        User user = queueService.getNextInLine(eventId);
-        System.out.println(user);
-        return user;
+            venueMap.put(venue.getId(), venue);
     }
 
     static Event findEventByName(String eventName) {
@@ -99,6 +91,13 @@ public class TicketSystem {
                 .forEach(System.out::println);
     }
 
+    static List<Event> getEventsThatUserHasTicketFor(User user) {
+        return user.getUserTickets()
+                .stream()
+                .map(ticket -> findEventByName(ticket.eventId))
+                .collect(Collectors.toList());
+    }
+
     static void printVenuesWithEventsThisWeek() {
         eventMap.values()
                 .stream()
@@ -106,6 +105,10 @@ public class TicketSystem {
                 .map(Event::getVenue)
                 .distinct()
                 .forEach(System.out::println);
+    }
+
+    void requestTicket(Event event, User user) {
+        queueService.addToQueue(event.getId(), user);
     }
 
     void assignTickets(String eventId, int number) {
@@ -117,4 +120,9 @@ public class TicketSystem {
         }
     }
 
+    User viewNext(String eventId) {
+        User user = queueService.getNextInLine(eventId);
+        System.out.println(user);
+        return user;
+    }
 }

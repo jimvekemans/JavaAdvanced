@@ -1,6 +1,5 @@
 package demo6;
 
-import demo2.Animal;
 import demo2.Cat;
 import demo2.Fish;
 import demo2.Habitat;

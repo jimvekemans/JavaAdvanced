@@ -1,4 +1,4 @@
-package threadingOpgave1;
+package threading1.threadingOpgave1;
 
 import java.util.ArrayList;
 import java.util.List;

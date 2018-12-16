@@ -2,14 +2,7 @@ package opdracht1;
 
 import java.util.Comparator;
 
-/*
-  Het sorteeralgoritme moet als volgt werken:
-        eerst moeten alle harten (heart) zitten,
-        daarna ruiten (diamond),
-        klaveren (clubs) en tenslotte schoppen (spade).
-  De kaarten van dezelfde ‘kleur’ (= harten,
-  klaveren, ruiten of schoppen) zijn gesorteerd volgens waarde: 2, 3, …, J, Q, K, A.
-*/
+//Ik heb zowel Comparator als Comparable geimplementeerd voor dit nadien nog te kunnen gebruiken bij sorteren in streams
 public class Card implements Comparator<Card>, Comparable<Card> {
     private CardSuit suit;
     private CardRank rank;
@@ -38,17 +31,22 @@ public class Card implements Comparator<Card>, Comparable<Card> {
 
     @Override
     public int compareTo(Card otherCard) {
-        int thisCardValue = rank.getRankValue();
-        int otherCardValue = otherCard.getRank().getRankValue();
-        CardSuit thisCardSuit = suit;
-        CardSuit otherCardSuit = otherCard.getSuit();
-        //if higher --> 1, lower --> -1, equal --> 0
-        if (thisCardValue > otherCardValue) {
+        int thisCardRankValue = rank.getRankValue();
+        int otherCardRankValue = otherCard.getRank().getRankValue();
+        int thisCardSuitValue = suit.getSuitValue();
+        int otherCardSuitValue = otherCard.getSuit().getSuitValue();
+
+        // -1 = andere kaart lager plaatsen
+        //  0 = andere kaart niet plaatsen
+        //  1 = andere kaart hoger plaatsen
+        if (thisCardSuitValue > otherCardSuitValue
+                || (thisCardSuitValue == otherCardSuitValue && thisCardRankValue > otherCardRankValue)) {
             return -1;
-        } else if (thisCardValue < otherCardValue) {
+        } else if (thisCardSuitValue < otherCardSuitValue
+                || (thisCardSuitValue == otherCardSuitValue && thisCardRankValue < otherCardRankValue)) {
             return 1;
         } else {
-            return (thisCardSuit.equals(otherCardSuit)) ? 0 : 1;
+            return 0;
         }
     }
 }

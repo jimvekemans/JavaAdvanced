@@ -1,7 +1,15 @@
 package opdracht2;
 
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class Robot {
     private String name;
+    private Queue<Command> commands;
+
+    {
+        commands = new PriorityQueue<>();
+    }
 
     public Robot(String name) {
         this.name = name;
@@ -13,21 +21,35 @@ public class Robot {
 
     public void addCommand(Action action, String value) {
         Command command = new Command(action, value);
+        commands.add(command);
     }
 
     public int getCommandCount() {
-        // TODO implement method
-        return 0;
+        return commands.size();
     }
 
     public void executeNext() {
-        // TODO implement method
+        System.out.println(
+                (commands.isEmpty()) ?
+                        "IDLE" :
+                        commands.poll().display()
+        );
     }
 
 
-    private class Command {
+    public class Command {
         private Action action;
         private String value;
+
+        private int priority;
+
+        public int getPriority() {
+            return priority;
+        }
+
+        public void setPriority(int priority) {
+            this.priority = priority;
+        }
 
         public Command(Action action) {
             this(action, null);

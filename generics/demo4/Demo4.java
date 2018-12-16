@@ -3,7 +3,6 @@ package demo4;
 import demo2.Cat;
 import demo2.Fish;
 import demo3.Aquarium;
-import demo4.AnimalUtility;
 
 public class Demo4 {
     public static void main(String[] args) {

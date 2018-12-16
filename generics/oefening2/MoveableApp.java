@@ -8,6 +8,6 @@ public class MoveableApp {
 
         ChessPiece chessPiece = new ChessPiece();
         chessPiece.move(new ChessBoardLocation('c', 5));
-        System.out.println("ChessPiece: " +chessPiece.getCurrentLocation());
+        System.out.println("ChessPiece: " + chessPiece.getCurrentLocation());
     }
 }

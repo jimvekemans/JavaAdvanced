@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private static int count = 0;
@@ -7,7 +9,7 @@ public class User {
     private String firstname;
     private LocalDate birthday;
     private String id;
-    private Ticket userTicket;
+    private List<Ticket> userTickets;
 
     {
         count++;
@@ -18,6 +20,7 @@ public class User {
         this.firstname = firstname;
         this.birthday = birthday;
         this.id = generateId();
+        userTickets = new ArrayList<>();
     }
 
     private String generateId() {
@@ -59,10 +62,10 @@ public class User {
     }
 
     public void assignTicket(Ticket ticket) {
-        this.userTicket = ticket;
+        this.userTickets.add(ticket);
     }
 
-    public Ticket getUserTicket() {
-        return userTicket;
+    public List<Ticket> getUserTickets() {
+        return userTickets;
     }
 }

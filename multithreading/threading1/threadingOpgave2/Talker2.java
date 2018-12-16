@@ -1,10 +1,10 @@
-package threadingOpgave1;
+package threading1.threadingOpgave2;
 
-public class Talker extends Thread {
+public class Talker2 implements Runnable {
 
     String talkerId;
 
-    public Talker(String talkerId) {
+    public Talker2(String talkerId) {
         this.talkerId = talkerId;
     }
 
@@ -15,7 +15,6 @@ public class Talker extends Thread {
                 Thread.sleep(500);
                 System.out.println(talkerId);
             } catch (InterruptedException e) {
-                System.out.println("Something went wrong");
                 e.printStackTrace();
             }
         }
