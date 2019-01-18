@@ -15,15 +15,21 @@ public class CustomerRepository {
     }
 
     public Customer getByCustomerNumber(String customerNumber) {
+        return customers.get(customerNumber);
+
+        /*
         return customers.keySet()
                 .stream()
                 .filter(key -> key.equals(customerNumber))
                 .map(customers::get)
                 .findFirst()
                 .get();
+         */
+
     }
 
     public List<Customer> findAll() {
+        //return new ArrayList<>(customers.values());
         return customers.values()
                 .stream()
                 .collect(Collectors.toList());

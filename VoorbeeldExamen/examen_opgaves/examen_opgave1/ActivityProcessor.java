@@ -37,7 +37,18 @@ public class ActivityProcessor {
                 } else {
                     throw new IOException("INVALID FILENAME");
                 }
-                activities.forEach(this::assignPointsToCustomer);
+                //filter out the customernumbers that dont exist in the customerrepository
+                activities.stream()
+                        .filter(activity -> customerRepository.getByCustomerNumber(activity.getCustomerNumber()) == null)
+                        .forEach(activity -> errorFileWriter.write(String.format(
+                                "%s - %s - UNKNOWN CUSTOMER: \r\n %s %s;%s;%s",
+                                LocalTime.now().toString(),
+                                activityFile.getFileName(),
+                                activity.getCustomerNumber(),
+                                activity.getActivityDate(),
+                                activity.getActivityType(),
+                                activity.getDistance()
+                        )));
             } catch (NullPointerException npe) {
                 errorFileWriter.write(
                         LocalTime.now().toString() + " - " + activityFile + " - " +
