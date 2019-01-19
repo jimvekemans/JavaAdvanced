@@ -6,7 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Opgave1 {
     public static void main(String[] args) {
@@ -55,7 +57,7 @@ public class Opgave1 {
             Files.walk(resourcesPath)
                     .parallel()
                     .filter(p -> !p.toFile().isDirectory())
-                    .forEach(file -> new ActivityProcessor(customerRepository).processActivities(resourcesPath, errorFilePath));
+                    .forEach(file -> allActivities.addAll(new ActivityProcessor(customerRepository).processActivities(file.getFileName().toAbsolutePath(), errorFilePath)));
         } catch (IOException ioe) {
             System.out.println("An error occurred during TODO 4.");
             ioe.printStackTrace();
@@ -63,9 +65,21 @@ public class Opgave1 {
 
         System.out.println("*** Top 10 klanten");
         // TODO: 5
+        List<Customer> topTenCustomers = customerRepository.findAll()
+                .stream()
+                .sorted((customer1, customer2) -> (customer1.getPoints() > customer2.getPoints()) ? 1 : -1)
+                .limit(10)
+                .collect(Collectors.toList());
+        topTenCustomers
+                .forEach(System.out::println);
 
         System.out.println("** Alle activiteiten meest actieve klant (gesorteerd op datum):");
         // TODO: 6
+        Customer mostActiveCustomer = topTenCustomers.get(0);
+        allActivities.stream()
+                .filter(activity -> activity.getCustomerNumber().equalsIgnoreCase(mostActiveCustomer.getCustomerNumber()))
+                .sorted(Comparator.comparing(Activity::getActivityDate))
+                .forEach(System.out::println);
 
     }
 }
