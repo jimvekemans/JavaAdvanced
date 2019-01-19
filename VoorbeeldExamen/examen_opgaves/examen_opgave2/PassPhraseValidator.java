@@ -1,6 +1,17 @@
 package examen_opgave2;
 
-public class PassPhraseValidator {
+import java.util.List;
 
+public class PassPhraseValidator<T> extends Thread {
 
+    public PassPhraseValidator(List<T> asList) {
+    }
+
+    public String getPassPhrase() {
+        return "";
+    }
+
+    public boolean isValid() {
+        return false;
+    }
 }

@@ -35,7 +35,7 @@ public class Opgave1 {
         // TODO: 3
         customerRepository.findAll()
                 .stream()
-                .sorted((customer1, customer2) -> customer1.getDateOfBirth().compareTo(customer2.getDateOfBirth()))
+                .sorted((customer1, customer2) -> customer2.getDateOfBirth().compareTo(customer1.getDateOfBirth()))
                 .limit(10)
                 .forEach(System.out::println);
 
@@ -43,21 +43,23 @@ public class Opgave1 {
         List<Activity> allActivities = new ArrayList<>();
         // TODO: 4
         try {
-            Path resourcesPath = Paths.get(".\\VoorbeeldExamen\\examen_resources\\opgave1\\");
-            Path errorFilePath = Paths.get(".\\VoorbeeldExamen\\examen_resources\\opgave1\\log\\errors.log");
+            Path resourcesPath = Paths.get("VoorbeeldExamen/examen_resources/opgave1/");
+            Path errorFilePath = Paths.get("VoorbeeldExamen/examen_resources/opgave1/log/errors.log");
             if (!Files.exists(resourcesPath)) {
-                Files.createDirectories(resourcesPath);
+                Files.createDirectories(resourcesPath.getParent());
                 Files.createFile(resourcesPath);
             }
             if (!Files.exists(errorFilePath)) {
-                Files.createDirectories(errorFilePath);
+                Files.createDirectories(errorFilePath.getParent());
                 Files.createFile(errorFilePath);
             }
             //Door de directory wandelen en elk bestandje checken (directories zijn ook bestanden dus die wegfilteren)
             Files.walk(resourcesPath)
                     .parallel()
                     .filter(p -> !p.toFile().isDirectory())
-                    .forEach(file -> allActivities.addAll(new ActivityProcessor(customerRepository).processActivities(file.getFileName().toAbsolutePath(), errorFilePath)));
+                    .forEach(file ->
+                            allActivities.addAll(activityFileProcessor.processActivities(file, errorFilePath))
+                    );
         } catch (IOException ioe) {
             System.out.println("An error occurred during TODO 4.");
             ioe.printStackTrace();
@@ -67,11 +69,10 @@ public class Opgave1 {
         // TODO: 5
         List<Customer> topTenCustomers = customerRepository.findAll()
                 .stream()
-                .sorted((customer1, customer2) -> (customer1.getPoints() > customer2.getPoints()) ? 1 : -1)
+                .sorted((customer1, customer2) -> (customer2.getPoints() - customer1.getPoints()))
                 .limit(10)
                 .collect(Collectors.toList());
-        topTenCustomers
-                .forEach(System.out::println);
+        topTenCustomers.forEach(System.out::println);
 
         System.out.println("** Alle activiteiten meest actieve klant (gesorteerd op datum):");
         // TODO: 6

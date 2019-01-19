@@ -8,11 +8,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class ActivityProcessor {
 
@@ -23,29 +19,26 @@ public class ActivityProcessor {
     }
 
     public List<Activity> processActivities(Path activityFile, Path errorFile) {
-        Map<String, Activity> activities;
+        Map<String, Activity> activities = new HashMap<>();
 
         try (BufferedReader reader = Files.newBufferedReader(activityFile);
              BufferedWriter errorFileWriter = Files.newBufferedWriter(errorFile)) {
             try {
                 if (activityFile.toString().contains("strava")) {
-                    activities = reader.lines()
-                            .collect(Collectors.toMap(
-                                    string -> string,
-                                    this::stravaStringToActivity
-                            ));
+                    Map<String, Activity> localActivitiesMap = new HashMap<>();
+                    reader.lines().forEach(string -> localActivitiesMap.put(string, stravaStringToActivity(string)));
+                    activities = localActivitiesMap;
                 } else if (activityFile.toString().contains("endomondo")) {
-                    activities = reader.lines()
-                            .collect(Collectors.toMap(
-                                    string -> string,
-                                    this::endoMondoStringToActivity
-                            ));
+                    Map<String, Activity> localActivitiesMap = new HashMap<>();
+                    reader.lines().forEach(string -> localActivitiesMap.put(string, endoMondoStringToActivity(string)));
+                    activities = localActivitiesMap;
                 } else {
                     throw new IOException("INVALID FILENAME");
                 }
                 //filter out the activities with invalid customernumbers
+                Map<String, Activity> finalActivities = activities;
                 activities.keySet().stream()
-                        .filter(activityString -> customerRepository.getByCustomerNumber(activities.get(activityString).getCustomerNumber()) == null)
+                        .filter(activityString -> customerRepository.getByCustomerNumber(finalActivities.get(activityString).getCustomerNumber()) == null)
                         .forEach(activityString -> {
                             try {
                                 errorFileWriter.write(String.format(
@@ -64,11 +57,11 @@ public class ActivityProcessor {
                 errorFileWriter.write(LocalTime.now().toString() + " - " + activityFile + " - " + e.getMessage());
             }
         } catch (IOException ioe) {
-            ioe.getMessage();
+            System.out.println(ioe.getMessage());
         } catch (Exception e) {
             e.getMessage();
         }
-        return null;
+        return new ArrayList<Activity>(activities.values());
     }
 
     private void assignPointsToCustomer(Activity activity) {
