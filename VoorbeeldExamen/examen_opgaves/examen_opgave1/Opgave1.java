@@ -1,5 +1,9 @@
 package examen_opgave1;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +40,26 @@ public class Opgave1 {
         ActivityProcessor activityFileProcessor = new ActivityProcessor(customerRepository);
         List<Activity> allActivities = new ArrayList<>();
         // TODO: 4
-
+        try {
+            Path resourcesPath = Paths.get(".\\VoorbeeldExamen\\examen_resources\\opgave1\\");
+            Path errorFilePath = Paths.get(".\\VoorbeeldExamen\\examen_resources\\opgave1\\log\\errors.log");
+            if (!Files.exists(resourcesPath)) {
+                Files.createDirectories(resourcesPath);
+                Files.createFile(resourcesPath);
+            }
+            if (!Files.exists(errorFilePath)) {
+                Files.createDirectories(errorFilePath);
+                Files.createFile(errorFilePath);
+            }
+            //Door de directory wandelen en elk bestandje checken (directories zijn ook bestanden dus die wegfilteren)
+            Files.walk(resourcesPath)
+                    .parallel()
+                    .filter(p -> !p.toFile().isDirectory())
+                    .forEach(file -> new ActivityProcessor(customerRepository).processActivities(resourcesPath, errorFilePath));
+        } catch (IOException ioe) {
+            System.out.println("An error occurred during TODO 4.");
+            ioe.printStackTrace();
+        }
 
         System.out.println("*** Top 10 klanten");
         // TODO: 5
