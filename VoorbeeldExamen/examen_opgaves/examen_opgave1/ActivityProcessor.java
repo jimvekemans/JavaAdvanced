@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ActivityProcessor {
@@ -21,39 +22,41 @@ public class ActivityProcessor {
     }
 
     public List<Activity> processActivities(Path activityFile, Path errorFile) {
-        List<Activity> activities;
+        Map<String, Activity> activities;
 
         try (BufferedReader reader = Files.newBufferedReader(activityFile);
              BufferedWriter errorFileWriter = Files.newBufferedWriter(errorFile)) {
-            try {
-                if (activityFile.toString().contains("strava")) {
-                    activities = reader.lines()
-                            .map(this::stravaStringToActivity)
-                            .collect(Collectors.toList());
-                } else if (activityFile.toString().contains("endomondo")) {
-                    activities = reader.lines()
-                            .map(this::endoMondoStringToActivity)
-                            .collect(Collectors.toList());
-                } else {
-                    throw new IOException("INVALID FILENAME");
-                }
-                //filter out the customernumbers that dont exist in the customerrepository
-                activities.stream()
-                        .filter(activity -> customerRepository.getByCustomerNumber(activity.getCustomerNumber()) == null)
-                        .forEach(activity -> errorFileWriter.write(String.format(
-                                "%s - %s - UNKNOWN CUSTOMER: \r\n %s %s;%s;%s",
-                                LocalTime.now().toString(),
-                                activityFile.getFileName(),
-                                activity.getCustomerNumber(),
-                                activity.getActivityDate(),
-                                activity.getActivityType(),
-                                activity.getDistance()
-                        )));
-            } catch (NullPointerException npe) {
-                errorFileWriter.write(
-                        LocalTime.now().toString() + " - " + activityFile + " - " +
-                );
+            if (activityFile.toString().contains("strava")) {
+                activities = reader.lines()
+                        .collect(Collectors.toMap(
+                                string -> string,
+                                this::stravaStringToActivity
+                        ));
+            } else if (activityFile.toString().contains("endomondo")) {
+                activities = reader.lines()
+                        .collect(Collectors.toMap(
+                                string -> string,
+                                this::endoMondoStringToActivity
+                        ));
+            } else {
+                throw new IOException("INVALID FILENAME");
             }
+            //filter out the activities with invalid customernumbers
+            activities.keySet().stream()
+                    .filter(activityString -> customerRepository.getByCustomerNumber(activities.get(activityString).getCustomerNumber()) == null)
+                    .forEach(activityString -> {
+                        try {
+                            errorFileWriter.write(String.format(
+                                    "%s - %s - UNKNOWN CUSTOMER: \r\n %s",
+                                    LocalTime.now().toString(),
+                                    activityFile.getFileName(),
+                                    activityString
+                            ));
+                        } catch (IOException e) {
+                            System.out.println("An error occured while trying to write to the errorfile.");
+                            e.printStackTrace();
+                        }
+                    });
         } catch (IOException ioe) {
             ioe.getMessage();
         } catch (Exception e) {
@@ -63,7 +66,7 @@ public class ActivityProcessor {
     }
 
     private void assignPointsToCustomer(Activity activity) {
-        //CustomerRepository.getByCustomerNumber() kan een nullpointerexception gooien dus opvangen in errorFile
+        //Als Customerrepository.getByCustomerNumber() geen customer vindt, krijg je null
         customerRepository
                 .getByCustomerNumber(activity.getCustomerNumber())
                 .setPoints((int) (activity.getActivityType().getPointsPerKm() * activity.getDistance()));
