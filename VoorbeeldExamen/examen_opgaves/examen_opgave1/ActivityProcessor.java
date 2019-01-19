@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -26,37 +27,42 @@ public class ActivityProcessor {
 
         try (BufferedReader reader = Files.newBufferedReader(activityFile);
              BufferedWriter errorFileWriter = Files.newBufferedWriter(errorFile)) {
-            if (activityFile.toString().contains("strava")) {
-                activities = reader.lines()
-                        .collect(Collectors.toMap(
-                                string -> string,
-                                this::stravaStringToActivity
-                        ));
-            } else if (activityFile.toString().contains("endomondo")) {
-                activities = reader.lines()
-                        .collect(Collectors.toMap(
-                                string -> string,
-                                this::endoMondoStringToActivity
-                        ));
-            } else {
-                throw new IOException("INVALID FILENAME");
-            }
-            //filter out the activities with invalid customernumbers
-            activities.keySet().stream()
-                    .filter(activityString -> customerRepository.getByCustomerNumber(activities.get(activityString).getCustomerNumber()) == null)
-                    .forEach(activityString -> {
-                        try {
-                            errorFileWriter.write(String.format(
-                                    "%s - %s - UNKNOWN CUSTOMER: \r\n %s",
-                                    LocalTime.now().toString(),
-                                    activityFile.getFileName(),
-                                    activityString
+            try {
+                if (activityFile.toString().contains("strava")) {
+                    activities = reader.lines()
+                            .collect(Collectors.toMap(
+                                    string -> string,
+                                    this::stravaStringToActivity
                             ));
-                        } catch (IOException e) {
-                            System.out.println("An error occured while trying to write to the errorfile.");
-                            e.printStackTrace();
-                        }
-                    });
+                } else if (activityFile.toString().contains("endomondo")) {
+                    activities = reader.lines()
+                            .collect(Collectors.toMap(
+                                    string -> string,
+                                    this::endoMondoStringToActivity
+                            ));
+                } else {
+                    throw new IOException("INVALID FILENAME");
+                }
+                //filter out the activities with invalid customernumbers
+                activities.keySet().stream()
+                        .filter(activityString -> customerRepository.getByCustomerNumber(activities.get(activityString).getCustomerNumber()) == null)
+                        .forEach(activityString -> {
+                            try {
+                                errorFileWriter.write(String.format(
+                                        "%s - %s - UNKNOWN CUSTOMER: \r\n %s",
+                                        LocalTime.now().toString(),
+                                        activityFile.getFileName(),
+                                        activityString
+                                ));
+                            } catch (IOException e) {
+                                System.out.println("An error occured while trying to write to the errorfile.");
+                                e.printStackTrace();
+                            }
+                        });
+                return new ArrayList<>(activities.values());
+            } catch (Exception e) {
+                errorFileWriter.write(LocalTime.now().toString() + " - " + activityFile + " - " + e.getMessage());
+            }
         } catch (IOException ioe) {
             ioe.getMessage();
         } catch (Exception e) {
