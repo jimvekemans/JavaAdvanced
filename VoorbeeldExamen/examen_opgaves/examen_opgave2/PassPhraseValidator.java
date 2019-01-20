@@ -3,15 +3,19 @@ package examen_opgave2;
 import java.util.List;
 
 public class PassPhraseValidator<T> extends Thread {
+    List<T> passPhrase;
 
-    public PassPhraseValidator(List<T> asList) {
+    public PassPhraseValidator(List<T> passPhrase) {
+        this.passPhrase = passPhrase;
     }
 
-    public String getPassPhrase() {
-        return "";
+    public List<T> getPassPhrase() {
+        return passPhrase;
     }
 
     public boolean isValid() {
-        return false;
+        long sizeBeforeRemovingDuplicates = passPhrase.size();
+        long sizeAfterRemovingDuplicates = passPhrase.stream().distinct().count();
+        return sizeBeforeRemovingDuplicates == sizeAfterRemovingDuplicates;
     }
 }

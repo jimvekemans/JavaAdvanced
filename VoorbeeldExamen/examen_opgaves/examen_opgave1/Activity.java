@@ -48,4 +48,14 @@ public class Activity {
     public void setTracker(ActivityTracker tracker) {
         this.tracker = tracker;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Type: %s | Tracker: %s | Date: %s | Customernumber:%s | Distance: %d",
+                activityType.toString(),
+                tracker.toString(),
+                activityDate.toString(),
+                customerNumber,
+                distance);
+    }
 }
