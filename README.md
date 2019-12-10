@@ -1,4 +1,4 @@
-# Java Advanced 2018 - 2019
+# Alles wat je nodig hebt om te slagen op Java Advanced!
 Alle oefeningen van Java Advanced opgelost door moi, Jim Vekemans. <br>
 De PDF met opgave is ook terug te vinden als de uitleg of de code niet duidelijk is. <br>
 Ik raad aan een fork te maken ipv te clonen, zo kan je snel veranderingen importeren. <br>
